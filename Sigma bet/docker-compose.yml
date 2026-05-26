@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sigma-bet-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: sigma
+      POSTGRES_PASSWORD: sigma123
+      POSTGRES_DB: sigma_bet
+    volumes:
+      - sigma_bet_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sigma -d sigma_bet"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  sigma_bet_pgdata:
